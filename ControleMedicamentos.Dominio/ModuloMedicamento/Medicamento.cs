@@ -19,14 +19,23 @@ namespace ControleMedicamentos.Dominio.ModuloMedicamento
 
         public int QuantidadeRequisicoes { get { return Requisicoes.Count; } }
 
-        public Medicamento(string nome, string descricao, string lote, DateTime validade)
-        {
+        public Medicamento(string nome, string descricao, string lote, DateTime validade, int quantidade, Fornecedor fornecedor)
+        {   
             Nome = nome;
             Descricao = descricao;
             Lote = lote;
             Validade = validade;
-            Requisicoes = new List<Requisicao>();
+            QuantidadeDisponivel = quantidade;
+            Fornecedor = fornecedor;
         }
 
+        public Medicamento()
+        {
+        }
+
+        public override string ToString()
+        {
+            return $"{id}{" - "}{Nome}";
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ControleMedicamentos.Dominio.Compartilhado;
+﻿using ControleMedicamentos.ConsoleApp.ModuloMedicamento;
+using ControleMedicamentos.Dominio.Compartilhado;
 using ControleMedicamentos.Dominio.ModuloMedicamento;
 using System;
 

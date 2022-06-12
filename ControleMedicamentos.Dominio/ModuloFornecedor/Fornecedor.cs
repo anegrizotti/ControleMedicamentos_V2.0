@@ -17,5 +17,13 @@
         public string Cidade { get; set; }
         public string Estado { get; set; }
 
+        public Fornecedor()
+        {
+        }
+
+        public override string ToString()
+        {
+            return $"{id}{" - "}{Nome}";
+        }
     }
 }

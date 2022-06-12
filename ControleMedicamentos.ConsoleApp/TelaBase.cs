@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ControleMedicamentos.Dominio.ModuloMedicamento;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ControleMedicamentos.Dominio.Compartilhado
+namespace ControleMedicamentos.ConsoleApp
 {
     public abstract class TelaBase
     {
@@ -14,7 +15,6 @@ namespace ControleMedicamentos.Dominio.Compartilhado
         {
             Titulo = titulo;
         }
-
 
         public virtual string MostrarOpcoes()
         {

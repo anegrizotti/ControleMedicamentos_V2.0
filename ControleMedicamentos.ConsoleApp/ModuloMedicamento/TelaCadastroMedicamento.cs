@@ -1,24 +1,26 @@
-﻿using ControleMedicamentos.Dominio.Compartilhado;
-using ControleMedicamentos.Dominio.ModuloRequisicao;
+﻿using ControleMedicamento.Infra.BancoDados.ModuloMedicamento;
+using ControleMedicamentos.Dominio.Compartilhado;
+using ControleMedicamentos.Dominio.ModuloFornecedor;
+using ControleMedicamentos.Dominio.ModuloMedicamento;
+using ControleMedicamentos.Infra.BancoDados.ModuloFornecedor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ControleMedicamentos.Dominio.ModuloMedicamento
+namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
 {
     public class TelaCadastroMedicamento : TelaBase, ITelaCadastravel
     {
-        private readonly RepositorioMedicamento _repositorioMedicamento;
-        private readonly RepositorioRequisicao _repositorioRequisicao;
+        private readonly RepositorioMedicamentoEmBancoDados _repositorioMedicamento;
+        private readonly RepositorioFornecedorEmBancoDados _repositorioFornecedor = new RepositorioFornecedorEmBancoDados();
         private readonly Notificador _notificador;
 
-        public TelaCadastroMedicamento(RepositorioMedicamento repositorioMedicamento, RepositorioRequisicao repositorioRequisicao, Notificador notificador)
+        public TelaCadastroMedicamento(RepositorioMedicamentoEmBancoDados repositorioMedicamento, Notificador notificador)
             : base("Cadastro de Medicamento")
         {
             _repositorioMedicamento = repositorioMedicamento;
-            _repositorioRequisicao = repositorioRequisicao;
             _notificador = notificador;
         }
 
@@ -63,15 +65,13 @@ namespace ControleMedicamentos.Dominio.ModuloMedicamento
             }
 
             int numeroMedicamento = ObterNumeroRegistro();
-
             Medicamento medicamentoAtualizado = ObterMedicamento();
 
-            bool conseguiuEditar = _repositorioMedicamento.Editar(numeroMedicamento, medicamentoAtualizado);
+            medicamentoAtualizado.id = numeroMedicamento;
 
-            if (!conseguiuEditar)
-                _notificador.ApresentarMensagem("Não foi possível editar.", TipoMensagem.Erro);
-            else
-                _notificador.ApresentarMensagem("Medicamento editado com sucesso!", TipoMensagem.Sucesso);
+            _repositorioMedicamento.Editar(medicamentoAtualizado);
+
+            _notificador.ApresentarMensagem("Fornecedor editado com sucesso", TipoMensagem.Sucesso);
         }
 
         public void Excluir()
@@ -87,13 +87,11 @@ namespace ControleMedicamentos.Dominio.ModuloMedicamento
             }
 
             int numeroMedicamento = ObterNumeroRegistro();
+            Medicamento medicamento = ObterObjetoRegistro(numeroMedicamento);
 
-            bool conseguiuExcluir = _repositorioMedicamento.Excluir(numeroMedicamento);
+            _repositorioMedicamento.Excluir(medicamento);
 
-            if (!conseguiuExcluir)
-                _notificador.ApresentarMensagem("Não foi possível excluir.", TipoMensagem.Erro);
-            else
-                _notificador.ApresentarMensagem("Medicamento excluído com sucesso!", TipoMensagem.Sucesso);
+            _notificador.ApresentarMensagem("Medicamento excluído com sucesso", TipoMensagem.Sucesso);
         }
 
         public bool VisualizarRegistros(string tipoVisualizacao)
@@ -117,6 +115,29 @@ namespace ControleMedicamentos.Dominio.ModuloMedicamento
             return true;
         }
 
+        public bool VisualizarFornecedores(string tipoVisualizacao)
+        {
+            if (tipoVisualizacao == "Tela")
+                MostrarTitulo("Visualização de Fornecedores");
+
+            List<Fornecedor> fornecedores = _repositorioFornecedor.SelecionarTodos();
+
+            if (fornecedores.Count == 0)
+            {
+                _notificador.ApresentarMensagem("Nenhum fornecedor disponível.", TipoMensagem.Atencao);
+                return false;
+            }
+
+            Console.WriteLine("Fornecedores Cadastrados: ");
+
+            foreach (Fornecedor fornecedor in fornecedores)
+                Console.WriteLine(fornecedor.ToString());
+
+            Console.ReadLine();
+
+            return true;
+        }
+
         private Medicamento ObterMedicamento()
         {
             Console.WriteLine("Digite o nome do medicamento: ");
@@ -131,30 +152,44 @@ namespace ControleMedicamentos.Dominio.ModuloMedicamento
             Console.WriteLine("Digite a validade do medicamento: ");
             DateTime validade = Convert.ToDateTime(Console.ReadLine());
 
-            //Console.WriteLine("Digite a quantidade disponivel: ");
-            //int quantidade = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Digite a quantidade disponivel: ");
+            int quantidade = Convert.ToInt32(Console.ReadLine());
 
-            return new Medicamento(nome, descricao, lote, validade);
+            VisualizarFornecedores("Pesquisando");
+
+            Console.WriteLine("Digite o ID do fornecedor: ");
+            int idFornecedor = Convert.ToInt32(Console.ReadLine());
+
+            Fornecedor fornecedor = _repositorioFornecedor.SelecionarPorNumero(idFornecedor);
+
+            return new Medicamento(nome, descricao, lote, validade, quantidade, fornecedor);
         }
 
         public int ObterNumeroRegistro()
         {
             int numeroRegistro;
-            bool numeroRegistroEncontrado;
+            Medicamento medicamentoEncontrado;
 
             do
             {
-                Console.Write("Digite o ID do medicamento que deseja editar: ");
+                Console.Write("Digite o ID do medicamento: ");
                 numeroRegistro = Convert.ToInt32(Console.ReadLine());
 
-                numeroRegistroEncontrado = _repositorioMedicamento.ExisteRegistro(numeroRegistro);
+                medicamentoEncontrado = _repositorioMedicamento.SelecionarPorNumero(numeroRegistro);
 
-                if (numeroRegistroEncontrado == false)
+                if (medicamentoEncontrado == null)
                     _notificador.ApresentarMensagem("ID do medicamento não foi encontrado, digite novamente", TipoMensagem.Atencao);
 
-            } while (numeroRegistroEncontrado == false);
+            } while (medicamentoEncontrado == null);
 
             return numeroRegistro;
+        }
+
+        public Medicamento ObterObjetoRegistro(int numeroRegistro)
+        {
+            Medicamento medicamentoEncontrado = _repositorioMedicamento.SelecionarPorNumero(numeroRegistro);
+
+            return medicamentoEncontrado;
         }
 
         public void MostrarMedicamentosEmFalta()

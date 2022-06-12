@@ -1,18 +1,20 @@
 ﻿using ControleMedicamentos.Dominio.Compartilhado;
+using ControleMedicamentos.Dominio.ModuloFornecedor;
+using ControleMedicamentos.Infra.BancoDados.ModuloFornecedor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ControleMedicamentos.Dominio.ModuloFornecedor
+namespace ControleMedicamentos.ConsoleApp.ModuloFornecedor
 {
     public class TelaCadastroFornecedor : TelaBase, ITelaCadastravel
     {
-        private readonly RepositorioFornecedor _repositorioFornecedor;
+        private readonly RepositorioFornecedorEmBancoDados _repositorioFornecedor;
         private readonly Notificador _notificador;
 
-        public TelaCadastroFornecedor(RepositorioFornecedor repositorioFornecedor, Notificador notificador)
+        public TelaCadastroFornecedor(RepositorioFornecedorEmBancoDados repositorioFornecedor, Notificador notificador)
             : base("Cadastro de Fornecedores")
         {
             _repositorioFornecedor = repositorioFornecedor;
@@ -46,12 +48,11 @@ namespace ControleMedicamentos.Dominio.ModuloFornecedor
 
             Fornecedor fornecedorAtualizado = ObterFornecedor();
 
-            bool conseguiuEditar = _repositorioFornecedor.Editar(numeroFornecedor, fornecedorAtualizado);
+            fornecedorAtualizado.id = numeroFornecedor;
 
-            if (!conseguiuEditar)
-                _notificador.ApresentarMensagem("Não foi possível editar.", TipoMensagem.Erro);
-            else
-                _notificador.ApresentarMensagem("Fornecedor editado com sucesso!", TipoMensagem.Sucesso);
+            _repositorioFornecedor.Editar(fornecedorAtualizado);
+
+            _notificador.ApresentarMensagem("Fornecedor editado com sucesso", TipoMensagem.Sucesso);
         }
 
         public void Excluir()
@@ -67,13 +68,11 @@ namespace ControleMedicamentos.Dominio.ModuloFornecedor
             }
 
             int numeroFornecedor = ObterNumeroRegistro();
+            Fornecedor fornecedor = ObterObjetoRegistro(numeroFornecedor);
 
-            bool conseguiuExcluir = _repositorioFornecedor.Excluir(numeroFornecedor);
+            _repositorioFornecedor.Excluir(fornecedor);
 
-            if (!conseguiuExcluir)
-                _notificador.ApresentarMensagem("Não foi possível excluir.", TipoMensagem.Erro);
-            else
-                _notificador.ApresentarMensagem("Fornecedor excluído com sucesso!", TipoMensagem.Sucesso);
+            _notificador.ApresentarMensagem("Fornecedor excluído com sucesso", TipoMensagem.Sucesso);
         }
 
         public bool VisualizarRegistros(string tipoVisualizacao)
@@ -120,21 +119,28 @@ namespace ControleMedicamentos.Dominio.ModuloFornecedor
         public int ObterNumeroRegistro()
         {
             int numeroRegistro;
-            bool numeroRegistroEncontrado;
+            Fornecedor fornecedorEncontrado;
 
             do
             {
-                Console.Write("Digite o ID do fornecedor que deseja editar: ");
+                Console.Write("Digite o ID do fornecedor: ");
                 numeroRegistro = Convert.ToInt32(Console.ReadLine());
 
-                numeroRegistroEncontrado = _repositorioFornecedor.ExisteRegistro(numeroRegistro);
+                fornecedorEncontrado = _repositorioFornecedor.SelecionarPorNumero(numeroRegistro);
 
-                if (numeroRegistroEncontrado == false)
+                if (fornecedorEncontrado == null)
                     _notificador.ApresentarMensagem("ID do fornecedor não foi encontrado, digite novamente", TipoMensagem.Atencao);
 
-            } while (numeroRegistroEncontrado == false);
+            } while (fornecedorEncontrado == null);
 
             return numeroRegistro;
+        }
+
+        public Fornecedor ObterObjetoRegistro(int numeroRegistro)
+        {
+            Fornecedor fornecedorEncontrado = _repositorioFornecedor.SelecionarPorNumero(numeroRegistro);
+
+            return fornecedorEncontrado;
         }
     }
 }
