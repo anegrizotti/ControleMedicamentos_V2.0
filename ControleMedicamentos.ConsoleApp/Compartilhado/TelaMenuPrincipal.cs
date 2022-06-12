@@ -1,5 +1,6 @@
 ﻿using ControleMedicamento.Infra.BancoDados.ModuloMedicamento;
 using ControleMedicamentos.ConsoleApp.ModuloFornecedor;
+using ControleMedicamentos.ConsoleApp.ModuloFuncionario;
 using ControleMedicamentos.ConsoleApp.ModuloMedicamento;
 using ControleMedicamentos.Dominio.Compartilhado;
 using ControleMedicamentos.Dominio.ModuloFornecedor;
@@ -8,6 +9,7 @@ using ControleMedicamentos.Dominio.ModuloMedicamento;
 using ControleMedicamentos.Dominio.ModuloPaciente;
 using ControleMedicamentos.Dominio.ModuloRequisicao;
 using ControleMedicamentos.Infra.BancoDados.ModuloFornecedor;
+using ControleMedicamentos.Infra.BancoDados.ModuloFuncionario;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +20,8 @@ namespace ControleMedicamentos.ConsoleApp
 {
     public class TelaMenuPrincipal
     {
-        //private RepositorioFuncionario repositorioFuncionario;
-        //private TelaCadastroFuncionario telaCadastroFuncionario;
+        private RepositorioFuncionarioEmBancoDados repositorioFuncionario;
+        private TelaCadastroFuncionario telaCadastroFuncionario;
 
         private RepositorioFornecedorEmBancoDados repositorioFornecedor;
         private TelaCadastroFornecedor telaCadastroFornecedor;
@@ -35,8 +37,8 @@ namespace ControleMedicamentos.ConsoleApp
 
         public TelaMenuPrincipal(Notificador notificador)
         {
-            //repositorioFuncionario = new RepositorioFuncionario();
-            //telaCadastroFuncionario = new TelaCadastroFuncionario(repositorioFuncionario, notificador);
+            repositorioFuncionario = new RepositorioFuncionarioEmBancoDados();
+            telaCadastroFuncionario = new TelaCadastroFuncionario(repositorioFuncionario, notificador);
 
             repositorioFornecedor = new RepositorioFornecedorEmBancoDados();
             telaCadastroFornecedor = new TelaCadastroFornecedor(repositorioFornecedor, notificador);
@@ -79,8 +81,8 @@ namespace ControleMedicamentos.ConsoleApp
 
             TelaBase tela = null;
 
-            //if (opcao == "1")
-            //    tela = telaCadastroFuncionario;
+            if (opcao == "1")
+                tela = telaCadastroFuncionario;
 
             if (opcao == "2")
                 tela = telaCadastroFornecedor;
