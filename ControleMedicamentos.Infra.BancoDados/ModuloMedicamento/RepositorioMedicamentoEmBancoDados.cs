@@ -1,5 +1,6 @@
 ﻿using ControleMedicamentos.Dominio.ModuloFornecedor;
 using ControleMedicamentos.Dominio.ModuloMedicamento;
+using ControleMedicamentos.Infra.BancoDados.ModuloFornecedor;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace ControleMedicamento.Infra.BancoDados.ModuloMedicamento
 {
     public class RepositorioMedicamentoEmBancoDados 
     {
+        RepositorioFornecedorEmBancoDados repositorioFornecedor = new RepositorioFornecedorEmBancoDados();
+
         private const string enderecoBanco =
             "Data Source=(LocalDB)\\MSSQLLocalDB;" +
             "Initial Catalog=ControleMedicamentosDb;" +
@@ -50,7 +53,10 @@ namespace ControleMedicamento.Infra.BancoDados.ModuloMedicamento
                     WHERE [ID] = @ID";
 
         private const string sqlExcluir =
-            @"DELETE FROM [TBMEDICAMENTO] 
+            @"DELETE FROM [TBREQUISICAO]
+                WHERE [MEDICAMENTO_ID] = @ID
+
+                DELETE FROM [TBMEDICAMENTO] 
                 WHERE [ID] = @ID";
 
         private const string sqlSelecionarTodos =
@@ -241,23 +247,8 @@ namespace ControleMedicamento.Infra.BancoDados.ModuloMedicamento
             medicamento.QuantidadeDisponivel = quantidadeDisponivel;
 
             var idFornecedor = Convert.ToInt32(leitorMedicamento["FORNECEDOR_ID"]);
-            var nomeFornecedor = Convert.ToString(leitorMedicamento["NOME"]);
-            var telefoneFornecedor = Convert.ToString(leitorMedicamento["TELEFONE"]);
-            var emailFornecedor = Convert.ToString(leitorMedicamento["EMAIL"]);
-            var cidadeFornecedor = Convert.ToString(leitorMedicamento["CIDADE"]);
-            var estadoFornecedor = Convert.ToString(leitorMedicamento["ESTADO"]);
-
-            medicamento.Fornecedor = new Fornecedor
-            {
-                id = idFornecedor,
-                Nome = nomeFornecedor,
-                Telefone = telefoneFornecedor,
-                Email = emailFornecedor,
-                Cidade = cidadeFornecedor,
-                Estado = estadoFornecedor
-            };
+            medicamento.Fornecedor = repositorioFornecedor.SelecionarPorNumero(idFornecedor);
             
-
             return medicamento;
         }
 

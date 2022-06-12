@@ -41,7 +41,10 @@ namespace ControleMedicamentos.Infra.BancoDados.ModuloFuncionario
                     WHERE [ID] = @ID";
 
         private const string sqlExcluir =
-            @"DELETE FROM [TBFUNCIONARIO] 
+            @"DELETE FROM [TBREQUISICAO]
+                WHERE [FUNCIONARIO_ID] = @ID
+
+                DELETE FROM [TBFUNCIONARIO] 
                     WHERE [ID] = @ID";
 
         private const string sqlSelecionarTodos =

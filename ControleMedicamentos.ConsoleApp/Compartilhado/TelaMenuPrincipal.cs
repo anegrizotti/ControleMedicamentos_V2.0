@@ -3,20 +3,13 @@ using ControleMedicamentos.ConsoleApp.ModuloFornecedor;
 using ControleMedicamentos.ConsoleApp.ModuloFuncionario;
 using ControleMedicamentos.ConsoleApp.ModuloMedicamento;
 using ControleMedicamentos.ConsoleApp.ModuloPaciente;
+using ControleMedicamentos.ConsoleApp.ModuloRequisicao;
 using ControleMedicamentos.Dominio.Compartilhado;
-using ControleMedicamentos.Dominio.ModuloFornecedor;
-using ControleMedicamentos.Dominio.ModuloFuncionario;
-using ControleMedicamentos.Dominio.ModuloMedicamento;
-using ControleMedicamentos.Dominio.ModuloPaciente;
-using ControleMedicamentos.Dominio.ModuloRequisicao;
 using ControleMedicamentos.Infra.BancoDados.ModuloFornecedor;
 using ControleMedicamentos.Infra.BancoDados.ModuloFuncionario;
 using ControleMedicamentos.Infra.BancoDados.ModuloPaciente;
+using ControleMedicamentos.Infra.BancoDados.ModuloRequisicao;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ControleMedicamentos.ConsoleApp
 {
@@ -34,8 +27,8 @@ namespace ControleMedicamentos.ConsoleApp
         private RepositorioPacienteEmBancoDados repositorioPaciente;
         private TelaCadastroPaciente telaCadastroPaciente;
 
-        //private RepositorioRequisicao repositorioRequisicao;
-        //private TelaCadastroRequisicao telaCadastroRequisicao;
+        private RepositorioRequisicaoEmBancoDados repositorioRequisicao;
+        private TelaCadastroRequisicao telaCadastroRequisicao;
 
         public TelaMenuPrincipal(Notificador notificador)
         {
@@ -51,9 +44,9 @@ namespace ControleMedicamentos.ConsoleApp
             repositorioPaciente = new RepositorioPacienteEmBancoDados();
             telaCadastroPaciente = new TelaCadastroPaciente(repositorioPaciente, notificador);
 
-            //repositorioRequisicao = new RepositorioRequisicao();
-            //telaCadastroRequisicao = new TelaCadastroRequisicao(repositorioRequisicao, repositorioPaciente, repositorioMedicamento,
-            //    repositorioFuncionario, telaCadastroPaciente, telaCadastroMedicamento, telaCadastroFuncionario, notificador);
+            repositorioRequisicao = new RepositorioRequisicaoEmBancoDados();
+            telaCadastroRequisicao = new TelaCadastroRequisicao(repositorioRequisicao, repositorioPaciente, repositorioMedicamento,
+                repositorioFuncionario, telaCadastroPaciente, telaCadastroMedicamento, telaCadastroFuncionario, notificador);
         }
 
         public string MostrarOpcoes()
@@ -95,8 +88,8 @@ namespace ControleMedicamentos.ConsoleApp
             else if (opcao == "4")
                 tela = telaCadastroPaciente;
 
-            //else if (opcao == "5")
-            //    tela = telaCadastroRequisicao;
+            else if (opcao == "5")
+                tela = telaCadastroRequisicao;
 
             return tela;
         }

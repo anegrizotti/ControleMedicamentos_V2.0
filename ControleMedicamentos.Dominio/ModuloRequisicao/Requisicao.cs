@@ -9,19 +9,18 @@ namespace ControleMedicamentos.Dominio.ModuloRequisicao
 {
     public class Requisicao : EntidadeBase
     {
-        private Medicamento medicamentoSelecionado;
-        private Paciente pacienteSelecionado;
-        private int quantidadeMedicamento;
-        private DateTime dataHora;
-        private Funcionario funcionarioSelecionado;
 
-        public Requisicao(Medicamento medicamentoSelecionado, Paciente pacienteSelecionado, int quantidadeMedicamento, DateTime dataHora, Funcionario funcionarioSelecionado)
+        public Requisicao()
         {
-            this.medicamentoSelecionado = medicamentoSelecionado;
-            this.pacienteSelecionado = pacienteSelecionado;
-            this.quantidadeMedicamento = quantidadeMedicamento;
-            this.dataHora = dataHora;
-            this.funcionarioSelecionado = funcionarioSelecionado;
+        }
+
+        public Requisicao(Medicamento medicamento, Paciente paciente, int qtdMedicamento, DateTime data, Funcionario funcionario)
+        {
+            Medicamento = medicamento;
+            Paciente = paciente;
+            QtdMedicamento = qtdMedicamento;
+            Data = data;
+            Funcionario = funcionario;
         }
 
         public Medicamento Medicamento { get; set; }
@@ -29,5 +28,10 @@ namespace ControleMedicamentos.Dominio.ModuloRequisicao
         public int QtdMedicamento { get; set; }
         public DateTime Data { get; set; }
         public Funcionario Funcionario { get; set; }
+
+        public override string ToString()
+        {
+            return $"{id}{" - "}{Paciente.Nome}{" - "}{Medicamento.Nome}";
+        }
     }
 }

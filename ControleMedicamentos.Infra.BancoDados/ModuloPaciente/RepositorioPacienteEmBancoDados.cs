@@ -38,7 +38,10 @@ namespace ControleMedicamentos.Infra.BancoDados.ModuloPaciente
                     WHERE [ID] = @ID";
 
         private const string sqlExcluir =
-            @"DELETE FROM [TBPACIENTE] 
+            @"DELETE FROM [TBREQUISICAO]
+                WHERE [PACIENTE_ID] = @ID
+
+                DELETE FROM [TBPACIENTE] 
                     WHERE [ID] = @ID";
 
         private const string sqlSelecionarTodos =
