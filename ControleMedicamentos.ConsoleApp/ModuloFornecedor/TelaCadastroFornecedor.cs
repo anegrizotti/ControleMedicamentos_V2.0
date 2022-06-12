@@ -27,9 +27,10 @@ namespace ControleMedicamentos.ConsoleApp.ModuloFornecedor
 
             Fornecedor novoFornecedor = ObterFornecedor();
 
-            _repositorioFornecedor.Inserir(novoFornecedor);
+            var resultadoValidacao = _repositorioFornecedor.Inserir(novoFornecedor);
 
-            _notificador.ApresentarMensagem("Fornecedor cadastrado com sucesso!", TipoMensagem.Sucesso);
+            if (resultadoValidacao.IsValid)
+                _notificador.ApresentarMensagem("Fornecedor cadastrado com sucesso!", TipoMensagem.Sucesso);
         }
 
         public void Editar()
@@ -98,19 +99,23 @@ namespace ControleMedicamentos.ConsoleApp.ModuloFornecedor
 
         private Fornecedor ObterFornecedor()
         {
-            Console.WriteLine("Digite o nome do fornecedor: ");
+            Console.Write("Digite o nome do fornecedor: ");
             string nome = Console.ReadLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Digite o telefone do fornecedor: ");
+            Console.Write("Digite o telefone do fornecedor: ");
             string telefone = Console.ReadLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Digite o email do fornecedor: ");
+            Console.Write("Digite o email do fornecedor: ");
             string email = Console.ReadLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Digite a cidade do fornecedor: ");
+            Console.Write("Digite a cidade do fornecedor: ");
             string cidade = Console.ReadLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Digite o estado do fornecedor: ");
+            Console.Write("Digite o estado do fornecedor: ");
             string estado = Console.ReadLine();
 
             return new Fornecedor(nome, telefone, email, cidade, estado);

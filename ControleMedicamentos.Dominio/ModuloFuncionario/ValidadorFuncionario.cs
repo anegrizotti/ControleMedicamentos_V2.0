@@ -11,6 +11,14 @@ namespace ControleMedicamentos.Dominio.ModuloFuncionario
     {
         public ValidadorFuncionario()
         {
+            RuleFor(x => x.Nome)
+            .NotNull().NotEmpty().MinimumLength(3);
+
+            RuleFor(x => x.Login)
+            .NotNull().NotEmpty().MinimumLength(3);
+
+            RuleFor(x => x.Senha)
+            .NotNull().NotEmpty().MinimumLength(3);
 
         }
     }

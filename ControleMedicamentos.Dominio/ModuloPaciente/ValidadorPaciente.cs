@@ -11,7 +11,11 @@ namespace ControleMedicamentos.Dominio.ModuloPaciente
     {
         public ValidadorPaciente()
         {
+            RuleFor(x => x.Nome)
+            .NotNull().NotEmpty().MinimumLength(3);
 
+            RuleFor(x => x.CartaoSUS)
+            .NotNull().NotEmpty().MinimumLength(3);
         }
     }
 }

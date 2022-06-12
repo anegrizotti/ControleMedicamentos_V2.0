@@ -55,9 +55,15 @@ namespace ControleMedicamentos.ConsoleApp.ModuloRequisicao
 
             Requisicao novaRequisicao = ObterRequisicao();
 
-            repositorioRequisicao.Inserir(novaRequisicao);
+            if (novaRequisicao == null)
+            {
+                return;
+            }
 
-            _notificador.ApresentarMensagem("Requisição cadastrada com sucesso!", TipoMensagem.Sucesso);
+            var resultadoValidacao = repositorioRequisicao.Inserir(novaRequisicao);
+
+            if (resultadoValidacao.IsValid)
+                _notificador.ApresentarMensagem("Requisição cadastrada com sucesso!", TipoMensagem.Sucesso);
         }
 
         public void Editar()
@@ -136,6 +142,12 @@ namespace ControleMedicamentos.ConsoleApp.ModuloRequisicao
             DateTime dataHora = DateTime.Now;
 
             Funcionario funcionarioSelecionado = ObtemFuncionario();
+
+            if (medicamentoSelecionado == null || funcionarioSelecionado == null || pacienteSelecionado == null)
+            {
+                _notificador.ApresentarMensagem("Você deve preencher os dados corretamente", TipoMensagem.Erro);
+                return null;
+            }
 
             return new Requisicao(medicamentoSelecionado, pacienteSelecionado, quantidadeMedicamento, dataHora, funcionarioSelecionado);
         }

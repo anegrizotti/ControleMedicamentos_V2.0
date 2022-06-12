@@ -27,9 +27,10 @@ namespace ControleMedicamentos.ConsoleApp.ModuloPaciente
 
             Paciente novoPaciente = ObterPaciente();
 
-            _repositorioPaciente.Inserir(novoPaciente);
+            var resultadoValidacao = _repositorioPaciente.Inserir(novoPaciente);
 
-            _notificador.ApresentarMensagem("Paciente cadastrado com sucesso!", TipoMensagem.Sucesso);
+            if (resultadoValidacao.IsValid)
+                _notificador.ApresentarMensagem("Paciente cadastrado com sucesso!", TipoMensagem.Sucesso);
         }
 
         public void Editar()
@@ -84,7 +85,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloPaciente
 
             if (pacientes.Count == 0)
             {
-                _notificador.ApresentarMensagem("Nenhum medicamento disponível.", TipoMensagem.Atencao);
+                _notificador.ApresentarMensagem("Nenhum paciente disponível.", TipoMensagem.Atencao);
                 return false;
             }
 
@@ -98,10 +99,11 @@ namespace ControleMedicamentos.ConsoleApp.ModuloPaciente
 
         private Paciente ObterPaciente()
         {
-            Console.WriteLine("Digite o nome do paciente: ");
+            Console.Write("Digite o nome do paciente: ");
             string nome = Console.ReadLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Digite o Cartão SUS do paciente: ");
+            Console.Write("Digite o Cartão SUS do paciente: ");
             string cartao = Console.ReadLine();
 
             return new Paciente(nome, cartao);

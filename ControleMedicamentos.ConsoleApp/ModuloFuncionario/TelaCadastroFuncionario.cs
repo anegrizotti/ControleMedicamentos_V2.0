@@ -24,9 +24,10 @@ namespace ControleMedicamentos.ConsoleApp.ModuloFuncionario
 
             Funcionario novoFuncionrio = ObterFuncionario();
 
-            _repositorioFuncionario.Inserir(novoFuncionrio);
+            var resultadoValidacao = _repositorioFuncionario.Inserir(novoFuncionrio);
 
-            _notificador.ApresentarMensagem("Funcionário cadastrado com sucesso!", TipoMensagem.Sucesso);
+            if (resultadoValidacao.IsValid)
+                _notificador.ApresentarMensagem("Funcionário cadastrado com sucesso!", TipoMensagem.Sucesso);
         }
 
         public void Editar()
@@ -95,13 +96,15 @@ namespace ControleMedicamentos.ConsoleApp.ModuloFuncionario
 
         private Funcionario ObterFuncionario()
         {
-            Console.WriteLine("Digite o nome do funcionário: ");
+            Console.Write("Digite o nome do funcionário: ");
             string nome = Console.ReadLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Digite o login do funcionário: ");
+            Console.Write("Digite o login do funcionário: ");
             string login = Console.ReadLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Digite a senha do funcionário: ");
+            Console.Write("Digite a senha do funcionário: ");
             string senha = Console.ReadLine();
 
             return new Funcionario(nome, login, senha);

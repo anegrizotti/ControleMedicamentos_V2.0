@@ -11,6 +11,20 @@ namespace ControleMedicamentos.Dominio.ModuloRequisicao
     {
         public ValidadorRequisicao()
         {
+            RuleFor(x => x.Medicamento)
+            .NotNull().NotEmpty();
+
+            RuleFor(x => x.Paciente)
+            .NotNull().NotEmpty();
+
+            RuleFor(x => x.QtdMedicamento)
+            .NotNull().NotEmpty();
+
+            RuleFor(x => x.Data)
+            .NotNull().NotEmpty();
+
+            RuleFor(x => x.Funcionario)
+            .NotNull().NotEmpty();
 
         }
     }

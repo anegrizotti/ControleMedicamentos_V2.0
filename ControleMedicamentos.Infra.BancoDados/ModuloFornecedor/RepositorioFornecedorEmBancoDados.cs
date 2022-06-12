@@ -1,4 +1,5 @@
-﻿using ControleMedicamentos.Dominio.ModuloFornecedor;
+﻿using ControleMedicamentos.Dominio.Compartilhado;
+using ControleMedicamentos.Dominio.ModuloFornecedor;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ namespace ControleMedicamentos.Infra.BancoDados.ModuloFornecedor
 {
     public class RepositorioFornecedorEmBancoDados
     {
+        Notificador notificador = new Notificador();
+
         private const string enderecoBanco =
             "Data Source=(LocalDB)\\MSSQLLocalDB;" +
             "Initial Catalog=ControleMedicamentosDb;" +
@@ -82,6 +85,7 @@ namespace ControleMedicamentos.Infra.BancoDados.ModuloFornecedor
             var resultadoValidacao = validador.Validate(novoRegistro);
 
             if (resultadoValidacao.IsValid == false)
+                notificador.ApresentarMensagem(resultadoValidacao.ToString(), TipoMensagem.Atencao);
                 return resultadoValidacao;
 
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);

@@ -47,9 +47,15 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
 
             Medicamento novoMedicamento = ObterMedicamento();
 
-            _repositorioMedicamento.Inserir(novoMedicamento);
+            if (novoMedicamento == null)
+            {
+                return;
+            }
 
-            _notificador.ApresentarMensagem("Medicamento cadastrado com sucesso!", TipoMensagem.Sucesso);
+            var resultadoValidacao = _repositorioMedicamento.Inserir(novoMedicamento);
+
+            if (resultadoValidacao.IsValid)
+                _notificador.ApresentarMensagem("Medicamento cadastrado com sucesso!", TipoMensagem.Sucesso);
         }
 
         public void Editar()
@@ -71,7 +77,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
 
             _repositorioMedicamento.Editar(medicamentoAtualizado);
 
-            _notificador.ApresentarMensagem("Fornecedor editado com sucesso", TipoMensagem.Sucesso);
+            _notificador.ApresentarMensagem("Medicamento editado com sucesso", TipoMensagem.Sucesso);
         }
 
         public void Excluir()
@@ -128,7 +134,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
                 return false;
             }
 
-            Console.WriteLine("Fornecedores Cadastrados: ");
+            Console.WriteLine("Fornecedores");
 
             foreach (Fornecedor fornecedor in fornecedores)
                 Console.WriteLine(fornecedor.ToString());
@@ -140,29 +146,40 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
 
         private Medicamento ObterMedicamento()
         {
-            Console.WriteLine("Digite o nome do medicamento: ");
+            Console.Write("Digite o nome do medicamento: ");
             string nome = Console.ReadLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Digite a descrição do medicamento: ");
+            Console.Write("Digite a descrição do medicamento: ");
             string descricao = Console.ReadLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Digite o lote do medicamento: ");
+            Console.Write("Digite o lote do medicamento: ");
             string lote = Console.ReadLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Digite a validade do medicamento: ");
+            Console.Write("Digite a validade do medicamento: ");
             DateTime validade = Convert.ToDateTime(Console.ReadLine());
+            Console.WriteLine();
 
-            Console.WriteLine("Digite a quantidade disponivel: ");
+            Console.Write("Digite a quantidade disponivel: ");
             int quantidade = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine();
 
             VisualizarFornecedores("Pesquisando");
 
-            Console.WriteLine("Digite o ID do fornecedor: ");
+            Console.Write("Digite o ID do fornecedor: ");
             int idFornecedor = Convert.ToInt32(Console.ReadLine());
 
-            Fornecedor fornecedor = _repositorioFornecedor.SelecionarPorNumero(idFornecedor);
+            Fornecedor fornecedorSelecionado = _repositorioFornecedor.SelecionarPorNumero(idFornecedor);
 
-            return new Medicamento(nome, descricao, lote, validade, quantidade, fornecedor);
+            if (fornecedorSelecionado == null)
+            {
+                _notificador.ApresentarMensagem("Você deve preencher os dados corretamente", TipoMensagem.Erro);
+                return null;
+            }
+
+            return new Medicamento(nome, descricao, lote, validade, quantidade, fornecedorSelecionado);
         }
 
         public int ObterNumeroRegistro()
@@ -200,27 +217,13 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
 
             foreach (Medicamento medicamento in medicamentos)
 
-                if (medicamento.QuantidadeDisponivel <= 0)
+                if (medicamento.QuantidadeDisponivel <= 10)
                 {
                     Console.WriteLine(medicamento.ToString());
                 }
 
-        }
+            Console.ReadLine();
 
-        public void MostrarMedicamentosMaisRequisitados()
-        {
-            //MostrarTitulo("Medicamentos Mais Requisitados");
-
-            //List<Requisicao> requisicoes = _repositorioRequisicao.SelecionarTodos();
-            //Medicamento[] tresMaisRequisitados = new Medicamento[3];
-            //int i = 0;
-
-            //foreach (Requisicao requisicao in requisicoes)
-
-            //    if ()
-            //    {
-            //        Console.WriteLine(medicamento.ToString());
-            //    }
         }
     }
 }

@@ -11,7 +11,23 @@ namespace ControleMedicamentos.Dominio.ModuloMedicamento
     {
         public ValidadorMedicamento()
         {
+            RuleFor(x => x.Nome)
+            .NotNull().NotEmpty().MinimumLength(3);
 
+            RuleFor(x => x.Descricao)
+            .NotNull().NotEmpty().MinimumLength(3);
+
+            RuleFor(x => x.Lote)
+            .NotNull().NotEmpty().MinimumLength(1);
+
+            RuleFor(x => x.Validade)
+            .NotNull().NotEmpty();
+
+            RuleFor(x => x.QuantidadeDisponivel)
+            .NotNull().NotEmpty();
+
+            RuleFor(x => x.Fornecedor)
+            .NotNull().NotEmpty();
         }
     }
 }
