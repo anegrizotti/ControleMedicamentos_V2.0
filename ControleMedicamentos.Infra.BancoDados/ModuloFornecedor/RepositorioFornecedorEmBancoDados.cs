@@ -83,10 +83,12 @@ namespace ControleMedicamentos.Infra.BancoDados.ModuloFornecedor
             var validador = new ValidadorFornecedor();
 
             var resultadoValidacao = validador.Validate(novoRegistro);
-
+             
             if (resultadoValidacao.IsValid == false)
+            {
                 notificador.ApresentarMensagem(resultadoValidacao.ToString(), TipoMensagem.Atencao);
                 return resultadoValidacao;
+            }
 
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
 

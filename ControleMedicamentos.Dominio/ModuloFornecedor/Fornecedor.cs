@@ -25,5 +25,16 @@
         {
             return $"{id}{" - "}{Nome}";
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Fornecedor fornecedor &&
+                   id == fornecedor.id &&
+                   Nome == fornecedor.Nome &&
+                   Telefone == fornecedor.Telefone &&
+                   Email == fornecedor.Email &&
+                   Cidade == fornecedor.Cidade &&
+                   Estado == fornecedor.Estado;
+        }
     }
 }
