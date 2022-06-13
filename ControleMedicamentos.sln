@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Dominio", "1 - Dominio", "{E4ADD486-DDC2-4CFA-B495-115E0009F6AA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Dominio", "2 - Dominio", "{E4ADD486-DDC2-4CFA-B495-115E0009F6AA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Infra", "2 - Infra", "{758DFCFD-913E-4BFE-97A2-7861A23E3C5E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infra", "3 - Infra", "{758DFCFD-913E-4BFE-97A2-7861A23E3C5E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Testes", "3 - Testes", "{65427580-4628-4172-8EC1-0922514F3AAD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Testes", "4 - Testes", "{65427580-4628-4172-8EC1-0922514F3AAD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleMedicamentos.Dominio", "ControleMedicamentos.Dominio\ControleMedicamentos.Dominio.csproj", "{0AB8A4CB-D9CD-4C2B-A112-240C50662BBD}"
 EndProject
@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleMedicamentos.Infra.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleMedicamentos.Infra.BancoDados", "ControleMedicamentos.Infra.BancoDados\ControleMedicamentos.Infra.BancoDados.csproj", "{27E25512-5C5F-42A0-AA99-D18DD2E181C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleMedicamentos.ConsoleApp", "ControleMedicamentos.ConsoleApp\ControleMedicamentos.ConsoleApp.csproj", "{DB2C27F1-C564-4E21-9A6D-7E7B673AABA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleMedicamentos.ConsoleApp", "ControleMedicamentos.ConsoleApp\ControleMedicamentos.ConsoleApp.csproj", "{DB2C27F1-C564-4E21-9A6D-7E7B673AABA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Telas", "1 - Telas", "{2F6C2AB3-FDD0-4815-916A-1C06F7718BAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,7 @@ Global
 		{B48987DE-1ADA-49B3-8C79-DA35EAC5CB89} = {758DFCFD-913E-4BFE-97A2-7861A23E3C5E}
 		{EE7ACE2D-CCC8-4921-A9E3-2A58865FFD15} = {B3B8B8C4-4077-4EE9-90F5-2C5674D8432E}
 		{27E25512-5C5F-42A0-AA99-D18DD2E181C0} = {758DFCFD-913E-4BFE-97A2-7861A23E3C5E}
+		{DB2C27F1-C564-4E21-9A6D-7E7B673AABA3} = {2F6C2AB3-FDD0-4815-916A-1C06F7718BAF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4AB0136-5F0E-46F1-8892-2BD6E76C1825}

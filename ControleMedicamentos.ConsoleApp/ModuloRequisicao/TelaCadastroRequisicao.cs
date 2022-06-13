@@ -60,10 +60,30 @@ namespace ControleMedicamentos.ConsoleApp.ModuloRequisicao
                 return;
             }
 
-            var resultadoValidacao = repositorioRequisicao.Inserir(novaRequisicao);
+            if (novaRequisicao.Medicamento.QuantidadeDisponivel >= novaRequisicao.QtdMedicamento)
+            {
 
-            if (resultadoValidacao.IsValid)
-                _notificador.ApresentarMensagem("Requisição cadastrada com sucesso!", TipoMensagem.Sucesso);
+                var resultadoValidacao = repositorioRequisicao.Inserir(novaRequisicao);
+
+                if (resultadoValidacao.IsValid)
+                {
+                    novaRequisicao.Medicamento.QuantidadeDisponivel = novaRequisicao.Medicamento.QuantidadeDisponivel - novaRequisicao.QtdMedicamento;
+                    if (novaRequisicao.Medicamento.QuantidadeDisponivel == 0)
+                    {
+                        _repositorioMedicamento.Excluir(novaRequisicao.Medicamento);
+                        _notificador.ApresentarMensagem("Requisição cadastrada com sucesso!", TipoMensagem.Sucesso);
+                    }
+                    else
+                    {
+                        _repositorioMedicamento.Editar(novaRequisicao.Medicamento);
+                        _notificador.ApresentarMensagem("Requisição cadastrada com sucesso!", TipoMensagem.Sucesso);
+                    }
+                }
+            }
+            else
+            {
+                _notificador.ApresentarMensagem("Não há medicamentos o suficiente", TipoMensagem.Erro);
+            }
         }
 
         public void Editar()
