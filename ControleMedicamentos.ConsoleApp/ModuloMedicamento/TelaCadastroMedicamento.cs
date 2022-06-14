@@ -209,9 +209,10 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
             return medicamentoEncontrado;
         }
 
-        public void MostrarMedicamentosEmFalta()
+        public List<Medicamento> MostrarMedicamentosEmFalta()
         {
-            MostrarTitulo("Medicamentos em Falta");
+            //MostrarTitulo("Medicamentos em Falta");
+            List<Medicamento> lista = new List<Medicamento>();
 
             List<Medicamento> medicamentos = _repositorioMedicamento.SelecionarTodos();
 
@@ -219,10 +220,10 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
 
                 if (medicamento.QuantidadeDisponivel <= 10)
                 {
-                    Console.WriteLine(medicamento.ToString());
+                    lista.Add(medicamento);
                 }
 
-            Console.ReadLine();
+            return lista;
 
         }
     }

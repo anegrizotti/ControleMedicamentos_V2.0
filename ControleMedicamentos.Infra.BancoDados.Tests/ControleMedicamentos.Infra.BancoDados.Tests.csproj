@@ -20,8 +20,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ControleMedicamentos.ConsoleApp\ControleMedicamentos.ConsoleApp.csproj" />
     <ProjectReference Include="..\ControleMedicamentos.Dominio\ControleMedicamentos.Dominio.csproj" />
     <ProjectReference Include="..\ControleMedicamentos.Infra.BancoDados\ControleMedicamentos.Infra.BancoDados.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ModuloRequisição\" />
   </ItemGroup>
 
 </Project>

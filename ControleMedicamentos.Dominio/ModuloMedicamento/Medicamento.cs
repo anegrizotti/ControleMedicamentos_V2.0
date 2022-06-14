@@ -13,11 +13,7 @@ namespace ControleMedicamentos.Dominio.ModuloMedicamento
         public DateTime Validade { get; set; }
         public int QuantidadeDisponivel { get; set; }
 
-        public List<Requisicao> Requisicoes { get; set; }
-
         public Fornecedor Fornecedor{ get; set; }
-
-        public int QuantidadeRequisicoes { get { return Requisicoes.Count; } }
 
         public Medicamento(string nome, string descricao, string lote, DateTime validade, int quantidade, Fornecedor fornecedor)
         {   
@@ -36,6 +32,18 @@ namespace ControleMedicamentos.Dominio.ModuloMedicamento
         public override string ToString()
         {
             return $"{id}{" - "}{Nome}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Medicamento medicamento &&
+                   id == medicamento.id &&
+                   Nome == medicamento.Nome &&
+                   Descricao == medicamento.Descricao &&
+                   Lote == medicamento.Lote &&
+                   Validade == medicamento.Validade &&
+                   QuantidadeDisponivel == medicamento.QuantidadeDisponivel &&
+                   EqualityComparer<Fornecedor>.Default.Equals(Fornecedor, medicamento.Fornecedor);
         }
     }
 }
