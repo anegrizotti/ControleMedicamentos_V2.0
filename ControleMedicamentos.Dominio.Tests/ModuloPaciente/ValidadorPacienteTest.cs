@@ -13,8 +13,15 @@ namespace ControleMedicamentos.Dominio.Tests.ModuloPaciente
     [TestClass]
     public class ValidadorPacienteTest
     {
+
+
         private Paciente paciente;
         private ValidadorPaciente validadorPaciente;
+
+        public ValidadorPacienteTest()
+        {
+            Db.ExecutarSql("DELETE FROM TBPACIENTE; DBCC CHECKIDENT (TBPACIENTE, RESEED, 0)");
+        }
 
         [TestMethod]
         public void Nome_nao_deve_ser_nulo()

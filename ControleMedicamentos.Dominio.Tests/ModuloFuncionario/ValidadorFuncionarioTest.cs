@@ -1,4 +1,5 @@
 ﻿using ControleMedicamentos.Dominio.ModuloFuncionario;
+using ControleMedicamentos.Infra.BancoDados;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,11 @@ namespace ControleMedicamentos.Dominio.Tests.ModuloFuncionario
     {
         private Funcionario funcionario;
         private ValidadorFuncionario validadorFuncionario;
+
+        public ValidadorFuncionarioTest()
+        {
+            Db.ExecutarSql("DELETE FROM TBFUNCIONARIO; DBCC CHECKIDENT (TBFUNCIONARIO, RESEED, 0)");
+        }
 
         [TestMethod]
         public void Nome_nao_deve_ser_nulo()

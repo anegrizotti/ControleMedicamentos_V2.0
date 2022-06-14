@@ -1,5 +1,6 @@
 ﻿using ControleMedicamentos.Dominio.ModuloFornecedor;
 using ControleMedicamentos.Dominio.ModuloMedicamento;
+using ControleMedicamentos.Infra.BancoDados;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,20 @@ namespace ControleMedicamentos.Dominio.Tests.ModuloMedicamento
     [TestClass]
     public class ValidadorMedicamentoTest
     {
+
+
         private Medicamento medicamento;
         private ValidadorMedicamento validadorMedicamento;
+
+        public ValidadorMedicamentoTest()
+        {
+            Db.ExecutarSql(@"DELETE FROM TBREQUISICAO;
+                DBCC CHECKIDENT (TBREQUISICAO, RESEED, 0)
+                DELETE FROM TBMEDICAMENTO;
+                DBCC CHECKIDENT (TBMEDICAMENTO, RESEED, 0)
+                DELETE FROM TBFORNECEDOR;
+                DBCC CHECKIDENT (TBFORNECEDOR, RESEED, 0)");
+        }
 
         private static Fornecedor GeraFornecedor()
         {

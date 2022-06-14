@@ -1,4 +1,5 @@
 ﻿using ControleMedicamentos.Dominio.ModuloFornecedor;
+using ControleMedicamentos.Infra.BancoDados;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,15 @@ namespace ControleMedicamentos.Dominio.Tests.ModuloFornecedor
     [TestClass]
     public class ValidadorFornecedorTest
     {
+
+
         private Fornecedor fornecedor;
         private ValidadorFornecedor validadorFornecedor;
+
+        public ValidadorFornecedorTest()
+        {
+            Db.ExecutarSql("DELETE FROM TBFORNECEDOR; DBCC CHECKIDENT (TBFORNECEDOR, RESEED, 0)");
+        }
 
         [TestMethod]
         public void Nome_nao_deve_ser_nulo()

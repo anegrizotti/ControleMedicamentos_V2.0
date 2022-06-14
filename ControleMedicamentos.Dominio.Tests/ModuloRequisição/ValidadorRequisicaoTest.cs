@@ -2,6 +2,7 @@
 using ControleMedicamentos.Dominio.ModuloMedicamento;
 using ControleMedicamentos.Dominio.ModuloPaciente;
 using ControleMedicamentos.Dominio.ModuloRequisicao;
+using ControleMedicamentos.Infra.BancoDados;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,22 @@ namespace ControleMedicamentos.Dominio.Tests.ModuloRequisição
     [TestClass]
     public class ValidadorRequisicaoTest
     {
+
+
         private Requisicao requisicao;
         private ValidadorRequisicao validadorRequisicao;
+
+        public ValidadorRequisicaoTest()
+        {
+            Db.ExecutarSql(@"DELETE FROM TBREQUISICAO;
+                  DBCC CHECKIDENT (TBREQUISICAO, RESEED, 0)
+                  DELETE FROM TBMEDICAMENTO;
+                  DBCC CHECKIDENT (TBMEDICAMENTO, RESEED, 0)
+                  DELETE FROM TBFUNCIONARIO;
+                  DBCC CHECKIDENT (TBFUNCIONARIO, RESEED, 0)
+                  DELETE FROM TBPACIENTE;
+                  DBCC CHECKIDENT (TBPACIENTE, RESEED, 0)");
+        }
 
         private static Funcionario GeraFuncionario()
         {
