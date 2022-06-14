@@ -20,14 +20,8 @@ namespace ControleMedicamentos.Dominio.ModuloMedicamento
             RuleFor(x => x.Lote)
             .NotNull().NotEmpty().MinimumLength(1);
 
-            RuleFor(x => x.Validade)
-            .NotNull().NotEmpty();
-
-            RuleFor(x => x.QuantidadeDisponivel)
-            .NotNull().NotEmpty();
-
             RuleFor(x => x.Fornecedor)
-            .NotNull().NotEmpty();
+            .NotNull();
         }
     }
 }
